@@ -19,6 +19,7 @@ const pedido_detalle_model_1 = __importDefault(require("../models/pedido_detalle
 const lote_talla_model_1 = __importDefault(require("../models/lote_talla.model"));
 const lote_model_1 = __importDefault(require("../models/lote.model"));
 const producto_model_1 = __importDefault(require("../models/producto.model"));
+const generarPdf_helper_1 = require("../helper/generarPdf.helper");
 // Configuración de GreenAPI
 const ID_INSTANCE = "7105309578";
 const API_TOKEN_INSTANCE = "13cf8fdf2a3348fa9e802e080eb072d7b42acc76c6964d1f90";
@@ -455,7 +456,7 @@ const enviarComprobanteService = async (idComprobante) => {
         ]
     });
     // 3. Generar PDF
-    const nombreArchivo = await (0, exports.generarPDFComprobante)(comprobante, comprobante.Venta, (_b = comprobante.Venta) === null || _b === void 0 ? void 0 : _b.Pedido, detallesVenta);
+    const nombreArchivo = await (0, generarPdf_helper_1.generarPDFComprobanteModelo)(comprobante, comprobante.Venta, (_b = comprobante.Venta) === null || _b === void 0 ? void 0 : _b.Pedido, detallesVenta);
     // 4. Obtener teléfono
     const telefono = "51" + ((_e = (_d = (_c = comprobante === null || comprobante === void 0 ? void 0 : comprobante.Venta) === null || _c === void 0 ? void 0 : _c.Pedido) === null || _d === void 0 ? void 0 : _d.Persona) === null || _e === void 0 ? void 0 : _e.telefono);
     if (!telefono || !((_h = (_g = (_f = comprobante === null || comprobante === void 0 ? void 0 : comprobante.Venta) === null || _f === void 0 ? void 0 : _f.Pedido) === null || _g === void 0 ? void 0 : _g.Persona) === null || _h === void 0 ? void 0 : _h.telefono)) {
@@ -660,7 +661,7 @@ const reenviarComprobante = async (req, res) => {
             ]
         });
         // Generar el PDF del comprobante
-        const nombreArchivo = await (0, exports.generarPDFComprobante)(comprobante, comprobante.Venta, (_b = comprobante.Venta) === null || _b === void 0 ? void 0 : _b.Pedido, detallesVenta);
+        const nombreArchivo = await (0, generarPdf_helper_1.generarPDFComprobanteModelo)(comprobante, comprobante.Venta, (_b = comprobante.Venta) === null || _b === void 0 ? void 0 : _b.Pedido, detallesVenta);
         const telefono = "51" + ((_e = (_d = (_c = comprobante === null || comprobante === void 0 ? void 0 : comprobante.Venta) === null || _c === void 0 ? void 0 : _c.Pedido) === null || _d === void 0 ? void 0 : _d.Persona) === null || _e === void 0 ? void 0 : _e.telefono);
         let resultadoWSP = null;
         if (telefono && ((_h = (_g = (_f = comprobante === null || comprobante === void 0 ? void 0 : comprobante.Venta) === null || _f === void 0 ? void 0 : _f.Pedido) === null || _g === void 0 ? void 0 : _g.Persona) === null || _h === void 0 ? void 0 : _h.telefono)) {

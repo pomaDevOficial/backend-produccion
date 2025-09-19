@@ -152,7 +152,7 @@ const generarPDFComprobanteModelo = async (comprobante, venta, pedido, detallesV
                 .text(clienteNombre.substring(0, 28), 8, currentY);
             currentY += 12;
             if ((_c = pedido.Persona) === null || _c === void 0 ? void 0 : _c.nroidentidad) {
-                const tipoDoc = ((_e = (_d = pedido.Persona) === null || _d === void 0 ? void 0 : _d.TipoIdentidad) === null || _e === void 0 ? void 0 : _e.nombre) || 'DOC';
+                const tipoDoc = ((_e = (_d = pedido.Persona) === null || _d === void 0 ? void 0 : _d.TipoIdentidad) === null || _e === void 0 ? void 0 : _e.nombre) || 'DNI';
                 doc.text(`${tipoDoc}: ${pedido.Persona.nroidentidad}`, 8, currentY);
                 currentY += 12;
             }
@@ -267,10 +267,10 @@ const generarPDFComprobanteModelo = async (comprobante, venta, pedido, detallesV
             doc.text('SUBTOTAL:', 120, currentY, { width: 60, align: 'left' })
                 .text(`S/ ${subtotal.toFixed(2)}`, 180, currentY, { width: 40, align: 'right' });
             currentY += 12;
-            // Mostrar IGV con el porcentaje configurado
-            doc.text(`IGV (${empresaConfig.porcentajeIgv}%):`, 120, currentY, { width: 60, align: 'left' })
-                .text(`S/ ${igv.toFixed(2)}`, 180, currentY, { width: 40, align: 'right' });
-            currentY += 15;
+            // // Mostrar IGV con el porcentaje configurado
+            // doc.text(`IGV (${empresaConfig.porcentajeIgv}%):`, 120, currentY, { width: 60, align: 'left' })
+            //    .text(`S/ ${igv.toFixed(2)}`, 180, currentY, { width: 40, align: 'right' });
+            // currentY += 15;
             // Total final
             doc.fontSize(styles.subheader.size)
                 .font(styles.subheader.font)
