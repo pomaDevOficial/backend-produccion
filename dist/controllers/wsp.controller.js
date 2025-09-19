@@ -409,8 +409,9 @@ const enviarMensaje = async (req, res) => {
 };
 exports.enviarMensaje = enviarMensaje;
 const enviarComprobanteService = async (idComprobante) => {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
     // 1. Buscar comprobante con sus relaciones
+    console.log(idComprobante);
     const comprobante = await comprobante_model_1.default.findByPk(idComprobante, {
         include: [
             {
@@ -428,7 +429,7 @@ const enviarComprobanteService = async (idComprobante) => {
         ]
     });
     if (!comprobante) {
-        throw new Error('Comprobante no encontrado');
+        throw new Error('Comprobante no encontrado 1');
     }
     // 2. Buscar detalles de la venta
     const detallesVenta = await detalle_venta_model_1.default.findAll({
@@ -460,8 +461,14 @@ const enviarComprobanteService = async (idComprobante) => {
     if (!telefono || !((_h = (_g = (_f = comprobante === null || comprobante === void 0 ? void 0 : comprobante.Venta) === null || _f === void 0 ? void 0 : _f.Pedido) === null || _g === void 0 ? void 0 : _g.Persona) === null || _h === void 0 ? void 0 : _h.telefono)) {
         throw new Error('El comprobante no tiene un número de teléfono válido asociado');
     }
+    const total = Number(((_j = comprobante.Venta.Pedido) === null || _j === void 0 ? void 0 : _j.totalimporte) || 0);
+    const mensajeAprobacion = `✅ Hola ${(_m = (_l = (_k = comprobante === null || comprobante === void 0 ? void 0 : comprobante.Venta) === null || _k === void 0 ? void 0 : _k.Pedido) === null || _l === void 0 ? void 0 : _l.Persona) === null || _m === void 0 ? void 0 : _m.nombres}, tu pedido ha sido aprobado.
+    💵 Monto total: S/ ${total.toFixed(2)}
+    📄 La boleta/comprobante generada es correcta según el monto de tu pedido.
+    Se adjunta el comprobante a continuación.`;
+    await (0, exports.enviarMensajePedido)(telefono, mensajeAprobacion);
     // 5. Enviar WhatsApp
-    const resultadoWSP = await (0, exports.enviarArchivoWSP)(telefono, nombreArchivo, `📄 ${((_j = comprobante.TipoComprobante) === null || _j === void 0 ? void 0 : _j.nombre) || 'Comprobante'} ${comprobante.numserie}`);
+    const resultadoWSP = await (0, exports.enviarArchivoWSP)(telefono, nombreArchivo, `📄 ${((_o = comprobante.TipoComprobante) === null || _o === void 0 ? void 0 : _o.nombre) || 'Comprobante'} ${comprobante.numserie}`);
     return {
         success: true,
         message: 'Comprobante enviado exitosamente por WhatsApp',
